@@ -1,0 +1,48 @@
+version: '3.7'
+
+services:
+  nginx:
+    image: nginx:stable-alpine
+    container_name: nginx
+    ports:
+      - 8888:80
+    volumes:
+      - ./:/var/www/html
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - php
+      - mysql
+    networks:
+      - microservice_country_information
+
+  mysql:
+    image: mysql:5.7
+    container_name: mysql
+    restart: always
+    environment:
+      MYSQL_DATABASE: countries_information
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: admin
+      MYSQL_ROOT_PASSWORD: admin.root
+    ports:
+      - 33069:3306
+    volumes:
+      - ./docker/database:/var/lib/mysql
+      - ./docker/mysql/entrypoint-initdb:/docker-entrypoint-initdb.d
+    networks:
+      - microservice_country_information
+
+  php:
+    build:
+      context: ./docker/php
+      dockerfile: Dockerfile
+    container_name: php
+    volumes:
+      - ./:/var/www/html
+    ports:
+      - 9000:80
+    networks:
+      - microservice_country_information
+
+networks:
+  microservice_country_information:
