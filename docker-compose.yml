@@ -44,14 +44,5 @@ services:
     networks:
       - microservice_country_information
 
-  composer:
-    image: library/composer:latest
-    container_name: composer
-    volumes:
-      - ./src:/var/www/html
-    working_dir: /var/www/html
-    networks:
-      - microservice_country_information
-
 networks:
   microservice_country_information:
