@@ -25,7 +25,7 @@ services:
       MYSQL_PASSWORD: admin
       MYSQL_ROOT_PASSWORD: admin.root
     ports:
-      - 33069:3306
+      - 3306:3306
     volumes:
       - ./docker/database:/var/lib/mysql
       - ./docker/mysql/entrypoint-initdb:/docker-entrypoint-initdb.d
